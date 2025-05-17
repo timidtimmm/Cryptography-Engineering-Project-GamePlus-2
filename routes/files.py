@@ -65,3 +65,46 @@ async def download_file(file_id: str):
         raise HTTPException(status_code=404, detail="File not found")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+@router.delete("/delete/{file_id}")
+async def delete_file(file_id: str):
+    try:
+        # 刪除檔案
+        os.remove(f"{STORAGE_PATH}/{file_id}.bin")
+        os.remove(f"{STORAGE_PATH}/{file_id}.key")
+        os.remove(f"{STORAGE_PATH}/{file_id}.iv")
+
+        log_event(user_id="deleter", action="delete", metadata={"file_id": file_id})
+        return {"message": "File deleted successfully"}
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="File not found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+@router.get("/list")
+async def list_files():
+    try:
+        files = [f for f in os.listdir(STORAGE_PATH) if f.endswith('.bin')]
+        file_ids = [f.split('.')[0] for f in files]
+        return {"files": file_ids}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+@router.get("/metadata/{file_id}")
+async def get_file_metadata(file_id: str):
+    try:
+        # 讀取檔案的 metadata
+        if os.path.exists(f"{STORAGE_PATH}/{file_id}.bin"):
+            return {"file_id": file_id, "status": "exists"}
+        else:
+            raise HTTPException(status_code=404, detail="File not found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+@router.get("/health")
+async def health_check():
+    try:
+        # 檢查檔案儲存路徑是否存在
+        if os.path.exists(STORAGE_PATH):
+            return {"status": "healthy"}
+        else:
+            raise HTTPException(status_code=500, detail="Storage path not found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
