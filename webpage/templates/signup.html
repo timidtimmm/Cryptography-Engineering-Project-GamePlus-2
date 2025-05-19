@@ -1,0 +1,12 @@
+# templates/signup.html
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Sign Up</title></head><body>
+  <h2>Sign Up</h2>
+  <form method="POST">
+    <input name="username" placeholder="Username" required />
+    <input name="password" type="password" placeholder="Password" required />
+    <button type="submit">Register</button>
+  </form>
+  <p><a href="/">Back to Login</a></p>
+  {% with msgs = get_flashed_messages(with_categories=true) %}{% for c,m in msgs %}<div class="{{c}}">{{m}}</div>{% endfor %}{% endwith %}
+</body></html>
