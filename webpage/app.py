@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask, render_template, request, redirect, flash, session, url_for
 import mysql.connector, hashlib, os
 from dotenv import load_dotenv
