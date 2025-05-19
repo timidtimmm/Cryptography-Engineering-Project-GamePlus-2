@@ -2,18 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Sign Up</title>
+  <title>Two-Factor Verification</title>
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
   <div class="container">
-    <h2>Sign Up</h2>
+    <h2>Two-Factor Verification</h2>
+    <p>User: <strong>{{ username }}</strong></p>
+
     <form method="POST">
-      <input name="username" placeholder="Username" required />
-      <input name="password" type="password" placeholder="Password" required />
-      <button type="submit">Register</button>
+      <input name="code" placeholder="Enter 6-digit code"
+             pattern="\d{6}" required />
+      <button type="submit">Verify</button>
     </form>
-    <p><a href="/">Back to Login</a></p>
 
     {% with msgs = get_flashed_messages(with_categories=true) %}
       {% for c,m in msgs %}
