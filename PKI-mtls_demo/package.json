@@ -1,0 +1,16 @@
+{
+  "name": "mtls-demo",
+  "version": "1.0.0",
+  "description": "This guide walks you through creating a mutual TLS (mTLS) Node.js server that requires clients to present valid certificates before accessing the application.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
